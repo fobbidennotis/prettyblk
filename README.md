@@ -1,6 +1,8 @@
 # prettyblk
 lsblk, but prettier
 
+![img](https://github.com/fobbidennotis/prettyblk/blob/master/assets/pblk.jpg?raw=true)
+
 # Installation
 ## Compiling from source
 Requirements
