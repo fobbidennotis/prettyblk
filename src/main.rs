@@ -21,6 +21,19 @@ struct Partition {
     used: Option<u64>,
 }
 
+const PSEUDO_DEVICES: [&str; 10] = [
+    "loop",
+    "ram",
+    "zram",
+    "dm",
+    "md",
+    "nbd",
+    "fd",
+    "sr",
+    "vd",
+    "xvd"
+];
+
 impl Partition {
     pub fn new(_name: String) -> Partition {
         let size = read_size(&_name).unwrap_or(0);
@@ -45,10 +58,12 @@ impl Partition {
 
 impl Drive {
     pub fn new(_name: &str) -> Drive {
+        let mut _partitions = get_partitions(_name);
+        _partitions.sort_by_key(|partition| partition.name.clone());
         Drive {
             name: _name.to_string(),
             size: read_size(_name).unwrap_or(0),
-            partitions: get_partitions(_name),
+            partitions: _partitions 
         }
     }
 }
@@ -79,7 +94,10 @@ fn read_drives() -> Vec<Drive> {
         .unwrap()
         .filter_map(Result::ok)
         .filter_map(|entry| {
-            entry.file_name().to_str().map(String::from).filter(|name| !name.starts_with("dm"))
+            entry.file_name().to_str().map(String::from)
+        })
+        .filter(|name| {
+            !PSEUDO_DEVICES.iter().any(|device| name.starts_with(device))
         })
         .map(|name| Drive::new(&name))
         .collect()
