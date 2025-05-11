@@ -30,6 +30,6 @@ pblk
 ```
 ## Downloading release
 ```
-sudo curl -L https://github.com/fobbidennotis/prettyblk/releases/download/1.0/pblk -o /usr/bin/pblk && sudo chmod +x /usr/bin/pblk
+sudo curl -L https://github.com/fobbidennotis/prettyblk/releases/download/1.1/pblk -o /usr/bin/pblk && sudo chmod +x /usr/bin/pblk
 pblk
 ```
